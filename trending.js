@@ -1,22 +1,3 @@
-
-
-const getData = async () => {
-    let searchInput = document.getElementById("search").value;
-    console.log(searchInput)
-    let api_key = "5772f178183e6ae1fbafd94c6b8a591a";
-    let url = `https://api.themoviedb.org/3/search/movie?api_key=`;
-    
-
-    console.log(searchInput)
-
-    try {
-    let res = await fetch(`${url}${api_key}&query=${searchInput}`);
-    let data = await res.json()
-    console.table(data.results)
-    return data.results
-  } catch (err) {}
-};
-
 const main = async () => {
     let data = await getData()
     if (data == undefined) return false
@@ -24,16 +5,28 @@ const main = async () => {
     showData(data)
 };
 
-main()
+
+const getData = async () => {
+    let api_key = "5772f178183e6ae1fbafd94c6b8a591a";
+    let url = `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=en-US&page=1`;
+    try {
+    let res = await fetch(`${url}`);
+    let data = await res.json()
+    console.table(data.results)
+    return data.results
+  } 
+  catch (err) {
+      console.log(err)
+  }
+};
 
 
 
 // display data in container for search result with debouncing
 
-let cont_div = document.getElementById("container")
+let cont_div = document.getElementById("main")
 const showData = (data) => {
     cont_div.innerHTML = ""
-    cont_div.style.display = "block"
 
     data.forEach(el => {
 
@@ -52,15 +45,3 @@ const showData = (data) => {
 }
 
 
-
-let timerID
-const debounce = (cbFunc, delay) => {
-
-    if(timerID){
-        clearInterval(timerID)
-    }
-
-    timerID = setTimeout(() => {
-        cbFunc()
-    }, delay)
-}
