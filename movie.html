@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+    <link rel="stylesheet" href="./style/movie.css">
+</head>
+<body>
+
+    <div id="navbar-container">
+        <div id="navbar-container">
+            <nav class="navbar">
+              <h2><a class="navbar-brand" href="index.html">Movies DB</a></h2>
+              <div class="">
+                <p class="nav-item"> <a href="trending.html">Trending Movies</a> </p> 
+          </nav>
+    </div>
+
+
+    <div id="main">
+
+    </div>
+    
+</body>
+</html>
+
+<script>
+
+    let main_div = document.getElementById("main")
+    let movie_id = JSON.parse(localStorage.getItem("movieName"))
+    let api_key = "5772f178183e6ae1fbafd94c6b8a591a";
+    let url = `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${api_key}&language=en-US`    
+
+    const getData = async() => {
+        let res = await fetch(url)
+        let data = await res.json()
+        console.log(data)
+        showdata(data)
+    }
+
+    getData()
+
+    let showdata = (data) => {
+        
+        let div = document.createElement("div")
+        
+        let movie_title = document.createElement("h4")
+        movie_title.innerHTML = data.title
+
+        let mov_poster = document.createElement("img")
+        mov_poster.src = `https://image.tmdb.org/t/p/w500${data.poster_path}` 
+
+        let yrOfRelease = document.createElement("p")
+        yrOfRelease.innerHTML = `<h4> Year of release ${data.release_date} </h4>`
+
+        let rating = document.createElement("p")
+        rating.innerHTML = `<h4>Rating ${data.vote_average} </h4>`
+        
+        div.append(mov_poster, movie_title, yrOfRelease, rating)
+        main_div.append(div)
+        
+    }
+
+</script>

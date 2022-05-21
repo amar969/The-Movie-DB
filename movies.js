@@ -39,12 +39,18 @@ const showData = (data) => {
 
 
         let div = document.createElement("div")
+        div.onclick = () => {
+            localStorage.setItem("movieName", JSON.stringify(el.id))
+            location.href = "movie.html";
+        }
         
-        let movie_title = document.createElement("p")
+        let movie_title = document.createElement("h4")
         movie_title.innerHTML = el.title
 
         let mov_poster = document.createElement("img")
         mov_poster.src = `https://image.tmdb.org/t/p/w500${el.poster_path}` 
+
+
         
         div.append(mov_poster, movie_title)
         cont_div.append(div)
